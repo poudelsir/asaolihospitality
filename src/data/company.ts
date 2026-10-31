@@ -3,24 +3,41 @@
  * Corporate Master Data & Information Model
  */
 
+export interface MenuItem {
+  name: string;
+  category: string;
+  description: string;
+  imageUrl: string;
+  tag: string;
+}
+
 export interface RestaurantBrand {
   id: string;
   name: string;
+  logoUrl?: string;
+  websiteUrl?: string;
   tagline: string;
   category: string;
   status: 'Operating' | 'Development' | 'Concept Incubator';
+  themeColor: 'emerald' | 'gold';
   description: string;
   location: {
     venue: string;
     street: string;
     district: string;
     city: string;
+    county: string;
     eircode: string;
     country: string;
     display: string;
   };
   highlights: string[];
   features: string[];
+  menuItems?: MenuItem[];
+  galleryImages: {
+    url: string;
+    caption: string;
+  }[];
   franchiseModel: string;
   imageUrl: string;
   accentColor: string;
@@ -127,34 +144,108 @@ export const RESTAURANT_BRANDS: RestaurantBrand[] = [
   {
     id: 'tuk-tuk-wok-bar',
     name: 'TUK TUK WOK BAR',
-    tagline: 'Vibrant Asian-Inspired Flavours & Street Food Craft',
-    category: 'Fast Casual / Asian Wok',
+    logoUrl: 'https://tuktukwokbar.ie/wp-content/uploads/2024/05/Screenshot_65-removebg-preview-1.png',
+    websiteUrl: 'https://tuktukwokbar.ie/',
+    tagline: 'Authentic Flavours · Fresh Ingredients · Asian Street Food',
+    category: 'Asian Street Food & Wok Bar',
     status: 'Operating',
-    description: 'Tuk Tuk Wok Bar brings vibrant Asian-inspired flavours and an exciting dining experience to Cork, Ireland. Operated under a franchise arrangement, it pairs traditional wok culinary theatre with fresh Irish produce and punchy artisanal sauces.',
+    themeColor: 'emerald',
+    description: 'Tuk Tuk Wok Bar brings vibrant Asian-inspired flavours and an exciting dining experience to Cork, Ireland. Operated under a franchise arrangement by ASA Hospitality, it combines sizzling open-flame wok theatre with fresh Irish produce, signature Asian curries, noodles, and authentic street food dishes.',
     location: {
       venue: 'Marina Market',
       street: 'Centre Park Road',
-      district: 'Mahon',
+      district: 'Marina Market, Centre Park Road',
       city: 'Cork',
+      county: 'Cork County',
       eircode: 'T12 YX76',
       country: 'Ireland',
-      display: 'Marina Market, Centre Park Road, Mahon, Cork, T12 YX76, Ireland',
+      display: 'Centre Park Road, Marina Market, Cork, Cork County, Ireland (T12 YX76)',
     },
     highlights: [
-      'High-heat wok cookery prepared fresh to order',
-      'Customizable noodle & jasmine rice bowls',
-      'Vibrant signature street food appetisers & bao',
-      'Located at Cork’s premier cultural food destination',
+      'High-heat authentic wok cookery tossed fresh to order',
+      'Signature Crispy Chilli, Pad Thai, Satay Skewers & Spice Box',
+      'Slow-cooked Massaman curry, Crispy Duck & traditional Tiffin bowls',
+      'Flagship franchise outlet in Cork’s iconic Marina Market',
     ],
     features: [
-      'Fast-paced open kitchen environment',
-      'Fresh local Irish vegetables and quality proteins',
-      'Signature house-blended sauces & spicy seasonings',
-      'Dine-in market seating and takeaway available',
+      'Fresh Irish market vegetables & premium marinated meats',
+      'Authentic Asian wok recipes & signature secret sauces',
+      'Takeaway, dine-in at Marina Market, and digital delivery',
+      'Strict adherence to Tuk Tuk franchisor culinary standards',
     ],
-    franchiseModel: 'Operated under an exclusive regional franchise agreement in Cork by ASA OLI HOSPITALITY LIMITED.',
-    imageUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1400&q=85',
-    accentColor: '#B89B72',
+    menuItems: [
+      {
+        name: 'Crispy Chilli Chicken',
+        category: 'Best Sellers',
+        description: 'Tender chicken strips coated in a light crispy batter, wok-tossed with peppers, scallions, and signature sweet chilli glaze.',
+        imageUrl: 'https://tuktukwokbar.ie/wp-content/uploads/2026/03/crispy-duck-1.webp',
+        tag: 'Signature',
+      },
+      {
+        name: 'Traditional Pad Thai',
+        category: 'Noodles',
+        description: 'Classic wok-fired flat rice noodles with egg, bean sprouts, crushed roasted peanuts, fresh lime, and homemade tamarind sauce.',
+        imageUrl: 'https://tuktukwokbar.ie/wp-content/uploads/2024/05/TUk-TUK-23-copy-1.png',
+        tag: 'Popular',
+      },
+      {
+        name: 'Tuk Tuk Spice Box',
+        category: 'Street Food',
+        description: 'Crispy shredded chicken, salt & chilli chips, wok-charred onions, peppers, and spicy seasoning blend.',
+        imageUrl: 'https://tuktukwokbar.ie/wp-content/uploads/2024/06/TUk-TUK-10-copy.png',
+        tag: 'Customer Favourite',
+      },
+      {
+        name: 'Aromatic Massaman Curry',
+        category: 'Curries',
+        description: 'Mild, rich coconut curry infused with lemongrass, cardamom, potatoes, roasted shallots, and fragrant jasmine rice.',
+        imageUrl: 'https://tuktukwokbar.ie/wp-content/uploads/2026/03/massaman-1.webp',
+        tag: 'Chef Special',
+      },
+      {
+        name: 'Artisanal Tiffin Bowl',
+        category: 'Bowls',
+        description: 'Balanced layered Asian street food bowl with steamed jasmine rice, wok vegetables, and choice of glazed protein.',
+        imageUrl: 'https://tuktukwokbar.ie/wp-content/uploads/2026/03/tiffin-1.webp',
+        tag: 'Healthy Craft',
+      },
+      {
+        name: 'Satay Skewers with Peanut Glaze',
+        category: 'Starters',
+        description: 'Char-grilled marinated chicken skewers served with rich Indonesian peanut satay dip and pickled cucumber relish.',
+        imageUrl: 'https://tuktukwokbar.ie/wp-content/uploads/2025/07/cosmoco-1.webp',
+        tag: 'Classic',
+      },
+    ],
+    galleryImages: [
+      {
+        url: 'https://tuktukwokbar.ie/wp-content/uploads/2026/03/Marina-market.webp',
+        caption: 'Tuk Tuk Wok Bar at Marina Market, Cork',
+      },
+      {
+        url: 'https://tuktukwokbar.ie/wp-content/uploads/2026/03/ssddd.webp',
+        caption: 'Authentic Wok Kitchen & Theatrical Open Flames',
+      },
+      {
+        url: 'https://tuktukwokbar.ie/wp-content/uploads/2026/03/crispy-duck-1.webp',
+        caption: 'Signature Crispy Duck & Street Food Craft',
+      },
+      {
+        url: 'https://tuktukwokbar.ie/wp-content/uploads/2026/03/massaman-1.webp',
+        caption: 'Slow-Simmered Massaman Coconut Curry',
+      },
+      {
+        url: 'https://tuktukwokbar.ie/wp-content/uploads/2026/03/tiffin-1.webp',
+        caption: 'Fresh Tiffin Rice & Vegetable Bowls',
+      },
+      {
+        url: 'https://tuktukwokbar.ie/wp-content/uploads/2024/05/TUk-TUK-23-copy-1.png',
+        caption: 'Fresh Wok Tossed Noodles Prepared to Order',
+      },
+    ],
+    franchiseModel: 'Operated in Cork under an official franchise agreement by ASA OLI HOSPITALITY LIMITED.',
+    imageUrl: 'https://tuktukwokbar.ie/wp-content/uploads/2026/03/Marina-market.webp',
+    accentColor: '#10B981',
   },
   {
     id: 'concept-pipeline-02',
@@ -162,12 +253,14 @@ export const RESTAURANT_BRANDS: RestaurantBrand[] = [
     tagline: 'Refined Casual European Dining (Concept Pipeline)',
     category: 'Casual Contemporary Dining',
     status: 'Development',
-    description: 'Part of ASA Hospitality’s long-term multi-brand vision. A contemporary European bistro concept currently in research and site assessment, designed for prime urban high-street destinations.',
+    themeColor: 'gold',
+    description: 'Part of ASA Hospitality’s long-term multi-brand vision. A contemporary European bistro concept currently in research and site assessment, designed for prime urban high-street destinations in Ireland.',
     location: {
       venue: 'Selected Urban High Street',
       street: 'Strategic Commercial Destination',
       district: 'City Centre',
       city: 'Cork / Dublin',
+      county: 'Ireland',
       eircode: 'Planned',
       country: 'Ireland',
       display: 'Prime Urban Locations, Ireland (Site Assessment Stage)',
@@ -183,9 +276,19 @@ export const RESTAURANT_BRANDS: RestaurantBrand[] = [
       'Chef-led culinary direction and seasonal menus',
       'Scalable operational blueprint for metropolitan centres',
     ],
+    galleryImages: [
+      {
+        url: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=85',
+        caption: 'European Bistro Interior Concept',
+      },
+      {
+        url: 'https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1200&q=85',
+        caption: 'Warm Timber and Brass Dining Ambiance',
+      },
+    ],
     franchiseModel: 'Proprietary concept under active development by ASA Hospitality.',
     imageUrl: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1400&q=85',
-    accentColor: '#A39E93',
+    accentColor: '#B89B72',
   },
 ];
 

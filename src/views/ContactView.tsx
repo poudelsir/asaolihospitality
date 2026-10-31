@@ -50,7 +50,7 @@ export const ContactView: React.FC = () => {
     },
     {
       q: 'Where is the operating restaurant located?',
-      a: 'Tuk Tuk Wok Bar operates at the Marina Market, Centre Park Road, Mahon, Cork, T12 YX76, Republic of Ireland.',
+      a: 'The franchised outlet operates at Centre Park Road, Marina Market, Cork, Cork County, Ireland (T12 YX76). Full consumer menus and updates are available on their official website: tuktukwokbar.ie.',
     },
     {
       q: 'Does ASA Hospitality partner with new franchise concepts?',
@@ -146,16 +146,30 @@ export const ContactView: React.FC = () => {
               </div>
             </div>
 
-            <div className="p-8 bg-[#161614] border border-[#B89B72]/30 space-y-3">
-              <span className="text-xs uppercase tracking-[0.2em] text-[#B89B72] font-semibold block">
-                Operating Restaurant Venue
-              </span>
+            <div className="p-8 bg-[#0B1E16] border border-[#10B981]/40 space-y-4">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#10B981]" />
+                <span className="text-[10px] uppercase tracking-[0.25em] text-[#10B981] font-semibold block">
+                  Operating Franchise Outlet
+                </span>
+              </div>
               <div className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-[#B89B72] shrink-0 mt-1" />
-                <div className="text-xs text-[#9E998F] space-y-1">
-                  <p className="font-serif text-base text-[#F5F1E9]">Tuk Tuk Wok Bar</p>
-                  <p>Marina Market, Centre Park Road</p>
-                  <p>Mahon, Cork, T12 YX76, Ireland</p>
+                <MapPin className="w-4 h-4 text-[#10B981] shrink-0 mt-1" />
+                <div className="text-xs text-[#C5E1D4] space-y-1">
+                  <p className="font-serif text-lg text-[#F5F1E9] font-medium">Tuk Tuk Wok Bar</p>
+                  <p className="font-medium text-[#A7F3D0]">Centre Park Road, Marina Market</p>
+                  <p>Cork, Cork County, Ireland (T12 YX76)</p>
+                  <div className="pt-2">
+                    <a
+                      href="https://tuktukwokbar.ie/"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs text-[#10B981] hover:text-[#34D399] underline underline-offset-2"
+                    >
+                      <span>Official Franchise Website: tuktukwokbar.ie</span>
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

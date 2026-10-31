@@ -130,18 +130,32 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenLegal }) => {
               </a>
 
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded border border-[#B89B72]/20 flex items-center justify-center bg-[#1A1A18] shrink-0 mt-0.5">
-                  <MapPin className="w-4 h-4 text-[#B89B72]" />
+                <div className="w-8 h-8 rounded border border-[#10B981]/30 flex items-center justify-center bg-[#0C2017] shrink-0 mt-0.5">
+                  <MapPin className="w-4 h-4 text-[#10B981]" />
                 </div>
                 <div>
-                  <p className="text-xs text-[#9E998F] uppercase tracking-wider">Restaurant Brand Venue</p>
-                  <p className="text-sm text-[#F5F1E9]">Tuk Tuk Wok Bar</p>
-                  <p className="text-xs text-[#9E998F]">Marina Market, Cork, T12 YX76, Ireland</p>
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
+                    <p className="text-xs text-[#10B981] uppercase tracking-wider font-semibold">Franchised Outlet</p>
+                  </div>
+                  <p className="text-sm text-[#F5F1E9] font-medium">Tuk Tuk Wok Bar</p>
+                  <p className="text-xs text-[#9E998F] leading-snug">
+                    Centre Park Road, Marina Market, Cork, Cork County, Ireland (T12 YX76)
+                  </p>
+                  <a
+                    href="https://tuktukwokbar.ie/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1 text-[11px] text-[#10B981] hover:underline mt-1"
+                  >
+                    <span>tuktukwokbar.ie</span>
+                    <ArrowUpRight className="w-3 h-3" />
+                  </a>
                 </div>
               </div>
             </div>
 
-            <div className="pt-2">
+            <div className="pt-2 flex items-center gap-4">
               <a
                 href="https://asaolihospitality.ie"
                 target="_blank"

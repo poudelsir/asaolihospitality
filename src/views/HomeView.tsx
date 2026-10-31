@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowDown, ArrowUpRight, MapPin, Check, Mail, Phone, ChevronRight } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, MapPin, Check, ChevronRight, ExternalLink, Flame } from 'lucide-react';
 import { COMPANY_INFO, PHILOSOPHY_PRINCIPLES, EXPERTISE_PILLARS, RESTAURANT_BRANDS } from '../data/company.ts';
 import { ImageWithFallback } from '../components/ImageWithFallback.tsx';
 import { validateInquiry, type PartnershipInquiry } from '../utils/validation.ts';
@@ -44,7 +44,6 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onSelectBrand })
     }
 
     setIsSubmitting(true);
-    // Simulate realistic luxury dispatch
     setTimeout(() => {
       setIsSubmitting(false);
       setFormSubmitted(true);
@@ -110,9 +109,11 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onSelectBrand })
             </button>
           </div>
 
-          {/* Subtle Trust Line */}
-          <div className="mt-14 text-xs tracking-[0.16em] uppercase text-[#9E998F]/70">
-            <span>Parent Company of Tuk Tuk Wok Bar · Cork, Ireland</span>
+          {/* Trust Line with Location */}
+          <div className="mt-14 text-xs tracking-[0.16em] uppercase text-[#9E998F]/80 flex flex-wrap items-center justify-center gap-2">
+            <span>Parent Company of Tuk Tuk Wok Bar</span>
+            <span className="text-[#10B981]">·</span>
+            <span className="text-[#10B981]">Centre Park Road, Marina Market, Cork County, Ireland</span>
           </div>
         </div>
 
@@ -147,7 +148,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onSelectBrand })
               </p>
 
               <p className="text-sm text-[#9E998F] leading-relaxed">
-                Headquartered in Ireland, our governance structure connects rigorous operational management with an acute appreciation for food culture. We partner with franchise founders and brand creators who demand flawless execution in the Irish market.
+                Headquartered in Ireland, our governance structure connects rigorous operational management with an acute appreciation for food culture. As the official franchise operator of Tuk Tuk Wok Bar at Marina Market, Cork, we maintain the highest standards of culinary authenticity and guest satisfaction.
               </p>
 
               <div className="pt-2">
@@ -233,86 +234,152 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onSelectBrand })
       </section>
 
       {/* =========================================================================
-          SECTION 4 — OUR BRANDS (Featuring Tuk Tuk Wok Bar, Cork)
+          SECTION 4 — OUR BRANDS
+          Featuring Tuk Tuk Wok Bar with Official Logo, Photos, Green Theme & Cork Location
          ========================================================================= */}
-      <section className="py-28 md:py-36 bg-[#141412] border-b border-[#222220]">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+      <section className="py-28 md:py-36 bg-[#0E1B15] border-b border-[#1A3828] relative overflow-hidden">
+        {/* Subtle Green Ambient Gradient */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#10B981]/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#064E3B]/20 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 relative z-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div className="space-y-3">
-              <span className="text-xs uppercase tracking-[0.25em] text-[#B89B72] font-semibold">
-                Brand Portfolio
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#10B981]" />
+                <span className="text-xs uppercase tracking-[0.25em] text-[#10B981] font-semibold">
+                  Official Franchise Portfolio
+                </span>
+              </div>
               <h2 className="font-serif text-3xl sm:text-5xl text-[#F5F1E9]">
                 A Collection of Experiences.
               </h2>
             </div>
             <button
               onClick={() => onNavigate('brands')}
-              className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#B89B72] hover:text-[#D4BD9B] font-medium transition-colors cursor-pointer self-start md:self-end"
+              className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#10B981] hover:text-[#34D399] font-medium transition-colors cursor-pointer self-start md:self-end"
             >
               <span>View Complete Portfolio</span>
               <ArrowUpRight className="w-4 h-4" />
             </button>
           </div>
 
-          {/* Marquee Featured Brand: TUK TUK WOK BAR */}
-          <div className="bg-[#1A1A18] border border-[#B89B72]/30 overflow-hidden shadow-2xl mb-16">
+          {/* Marquee Featured Brand: TUK TUK WOK BAR in Green Luxury Theme */}
+          <div className="bg-[#0B1E16] border border-[#10B981]/40 overflow-hidden shadow-2xl mb-16 relative">
+            {/* Top Green Accent Line */}
+            <div className="h-1 w-full bg-gradient-to-r from-[#064E3B] via-[#10B981] to-[#064E3B]" />
+
             <div className="grid grid-cols-1 lg:grid-cols-12">
-              {/* Brand Imagery Col */}
-              <div className="lg:col-span-7 relative group overflow-hidden">
-                <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=1400&q=85"
-                  alt="Tuk Tuk Wok Bar Fresh Asian Cooking"
-                  aspectRatioClass="aspect-[16/10] lg:aspect-auto lg:h-full"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute top-6 left-6 p-3 bg-[#111111]/90 backdrop-blur-md border border-[#B89B72]/30">
-                  <span className="text-[10px] uppercase tracking-[0.25em] text-[#B89B72] font-semibold">
-                    Operating Brand
-                  </span>
+              {/* Brand Imagery Col with Official Photos */}
+              <div className="lg:col-span-7 flex flex-col justify-between">
+                <div className="relative group overflow-hidden bg-[#0A1610]">
+                  <ImageWithFallback
+                    src="https://tuktukwokbar.ie/wp-content/uploads/2026/03/Marina-market.webp"
+                    alt="Tuk Tuk Wok Bar official Marina Market Cork outlet"
+                    aspectRatioClass="aspect-[16/10] lg:aspect-auto lg:h-[420px]"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  {/* Green Badge */}
+                  <div className="absolute top-6 left-6 px-3.5 py-1.5 bg-[#064E3B]/90 backdrop-blur-md border border-[#10B981]/50 flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#10B981]" />
+                    <span className="text-[10px] uppercase tracking-[0.22em] text-[#A7F3D0] font-semibold">
+                      OPERATING FRANCHISE BRAND
+                    </span>
+                  </div>
+                </div>
+
+                {/* Secondary Official Photos Strip */}
+                <div className="grid grid-cols-3 gap-2 p-2 bg-[#081510] border-t border-[#123824]">
+                  <div className="overflow-hidden relative group">
+                    <ImageWithFallback
+                      src="https://tuktukwokbar.ie/wp-content/uploads/2026/03/crispy-duck-1.webp"
+                      alt="Tuk Tuk Crispy Duck"
+                      aspectRatioClass="aspect-[4/3]"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute bottom-1 left-1.5 text-[9px] uppercase tracking-wider text-[#A7F3D0] bg-black/70 px-1">
+                      Crispy Chilli
+                    </div>
+                  </div>
+                  <div className="overflow-hidden relative group">
+                    <ImageWithFallback
+                      src="https://tuktukwokbar.ie/wp-content/uploads/2026/03/ssddd.webp"
+                      alt="Tuk Tuk Wok Theatre"
+                      aspectRatioClass="aspect-[4/3]"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute bottom-1 left-1.5 text-[9px] uppercase tracking-wider text-[#A7F3D0] bg-black/70 px-1">
+                      Wok Flames
+                    </div>
+                  </div>
+                  <div className="overflow-hidden relative group">
+                    <ImageWithFallback
+                      src="https://tuktukwokbar.ie/wp-content/uploads/2026/03/massaman-1.webp"
+                      alt="Tuk Tuk Massaman Curry"
+                      aspectRatioClass="aspect-[4/3]"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute bottom-1 left-1.5 text-[9px] uppercase tracking-wider text-[#A7F3D0] bg-black/70 px-1">
+                      Massaman
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Brand Information Col */}
-              <div className="lg:col-span-5 p-8 sm:p-12 flex flex-col justify-between space-y-8 bg-[#161614]">
+              {/* Brand Information Col with Official Logo */}
+              <div className="lg:col-span-5 p-8 sm:p-12 flex flex-col justify-between space-y-8 bg-[#0D241B]">
                 <div className="space-y-6">
-                  <div>
-                    <span className="text-xs uppercase tracking-[0.2em] text-[#9E998F] block mb-2">
-                      Asian-Inspired Fast Casual · Cork
-                    </span>
-                    <h3 className="font-serif text-3xl sm:text-4xl text-[#F5F1E9] tracking-wide">
-                      {tukTukBrand.name}
-                    </h3>
+                  {/* Logo & Category Header */}
+                  <div className="flex items-center gap-4 pb-4 border-b border-[#1A4230]">
+                    <div className="w-16 h-16 rounded-lg bg-[#071912] border border-[#10B981]/40 p-2 flex items-center justify-center shrink-0 shadow-lg">
+                      <img
+                        src="https://tuktukwokbar.ie/wp-content/uploads/2024/05/Screenshot_65-removebg-preview-1.png"
+                        alt="Tuk Tuk Wok Bar Official Logo"
+                        className="max-h-full max-w-full object-contain filter drop-shadow"
+                      />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-1.5 text-[#10B981] text-xs font-semibold uppercase tracking-wider">
+                        <Flame className="w-3.5 h-3.5" />
+                        <span>Asian Street Food & Wok Bar</span>
+                      </div>
+                      <h3 className="font-serif text-3xl text-[#F5F1E9] tracking-wide mt-0.5">
+                        {tukTukBrand.name}
+                      </h3>
+                    </div>
                   </div>
 
-                  <p className="text-sm text-[#DCD6CA] leading-relaxed">
+                  <p className="text-sm text-[#D1E7DD] leading-relaxed font-sans">
                     {tukTukBrand.description}
                   </p>
 
-                  {/* Location Card */}
-                  <div className="p-4 bg-[#1F1F1C] border border-[#B89B72]/20 space-y-2">
+                  {/* Exact Franchised Location Card requested by user */}
+                  <div className="p-4 bg-[#091A13] border border-[#10B981]/30 space-y-2">
                     <div className="flex items-start gap-2.5">
-                      <MapPin className="w-4 h-4 text-[#B89B72] shrink-0 mt-0.5" />
+                      <MapPin className="w-4 h-4 text-[#10B981] shrink-0 mt-0.5" />
                       <div>
-                        <span className="text-xs font-semibold uppercase tracking-wider text-[#F5F1E9] block">
-                          Restaurant Location
+                        <span className="text-xs font-semibold uppercase tracking-wider text-[#10B981] block">
+                          Franchised Outlet Location
                         </span>
-                        <p className="text-xs text-[#9E998F] leading-snug mt-1">
-                          {tukTukBrand.location.display}
+                        <p className="text-xs text-[#F5F1E9] font-medium leading-snug mt-1">
+                          Centre Park Road, Marina Market
+                        </p>
+                        <p className="text-xs text-[#9EBFB0] leading-snug">
+                          Cork, Cork County, Ireland · Eircode: T12 YX76
                         </p>
                       </div>
                     </div>
                   </div>
 
-                  {/* Highlights without pills */}
-                  <div className="space-y-2 pt-2">
-                    <span className="text-[11px] uppercase tracking-[0.2em] text-[#B89B72] font-semibold block">
-                      Concept Highlights
+                  {/* Highlights in Green Theme */}
+                  <div className="space-y-2 pt-1">
+                    <span className="text-[11px] uppercase tracking-[0.2em] text-[#10B981] font-semibold block">
+                      Authentic Flavours & Craft
                     </span>
-                    <ul className="space-y-1.5 text-xs text-[#9E998F]">
+                    <ul className="space-y-1.5 text-xs text-[#C5E1D4]">
                       {tukTukBrand.highlights.map((hl, i) => (
                         <li key={i} className="flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#B89B72]" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
                           <span>{hl}</span>
                         </li>
                       ))}
@@ -320,23 +387,38 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onSelectBrand })
                   </div>
                 </div>
 
-                <div className="pt-6 border-t border-[#252522]">
-                  <button
-                    onClick={() => {
-                      if (onSelectBrand) onSelectBrand(tukTukBrand.id);
-                      onNavigate('brands');
-                    }}
-                    className="w-full py-3.5 text-xs uppercase tracking-[0.2em] font-medium text-[#111111] bg-[#B89B72] hover:bg-[#D4BD9B] transition-colors cursor-pointer text-center"
-                  >
-                    EXPLORE BRAND DETAILS
-                  </button>
+                <div className="pt-6 border-t border-[#1A4230] space-y-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <button
+                      onClick={() => {
+                        if (onSelectBrand) onSelectBrand(tukTukBrand.id);
+                        onNavigate('brands');
+                      }}
+                      className="py-3 text-xs uppercase tracking-[0.2em] font-medium text-[#0A1610] bg-[#10B981] hover:bg-[#34D399] transition-colors cursor-pointer text-center"
+                    >
+                      EXPLORE BRAND
+                    </button>
+                    <a
+                      href="https://tuktukwokbar.ie/"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="py-3 text-xs uppercase tracking-[0.16em] font-medium text-[#A7F3D0] border border-[#10B981]/50 hover:bg-[#10B981]/20 transition-colors cursor-pointer text-center flex items-center justify-center gap-1.5"
+                    >
+                      <span>OFFICIAL SITE</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+
+                  <p className="text-[11px] text-[#86AA9A] text-center">
+                    Operated under franchise by ASA OLI HOSPITALITY LIMITED · Cork, Ireland
+                  </p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Scalable Multi-Brand Pipeline Preview */}
-          <div className="p-8 sm:p-10 border border-[#B89B72]/20 bg-[#161614]/60 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="p-8 sm:p-10 border border-[#B89B72]/20 bg-[#161614]/80 flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="space-y-2 text-center md:text-left">
               <span className="text-[11px] uppercase tracking-[0.25em] text-[#B89B72] font-semibold">
                 Scalable Portfolio Expansion
@@ -737,23 +819,35 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onSelectBrand })
             </div>
 
             {/* Operating Restaurant Venue */}
-            <div className="p-8 bg-[#161614] border border-[#B89B72]/20 space-y-4">
-              <span className="text-[10px] uppercase tracking-[0.25em] text-[#B89B72] font-semibold block">
-                Operating Brand Venue
-              </span>
+            <div className="p-8 bg-[#0B1E16] border border-[#10B981]/30 space-y-4">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#10B981]" />
+                <span className="text-[10px] uppercase tracking-[0.25em] text-[#10B981] font-semibold block">
+                  Operating Franchise Outlet
+                </span>
+              </div>
               <h3 className="font-serif text-xl text-[#F5F1E9]">Tuk Tuk Wok Bar</h3>
-              <p className="text-xs text-[#9E998F] leading-relaxed">
-                Marina Market, Centre Park Road<br />
-                Mahon, Cork, T12 YX76<br />
+              <p className="text-xs text-[#C5E1D4] leading-relaxed">
+                Centre Park Road, Marina Market<br />
+                Cork, Cork County, T12 YX76<br />
                 Republic of Ireland
               </p>
-              <div className="pt-2">
+              <div className="pt-2 flex items-center gap-3">
                 <button
                   onClick={() => onNavigate('brands')}
-                  className="text-xs text-[#B89B72] hover:underline cursor-pointer"
+                  className="text-xs text-[#10B981] hover:underline cursor-pointer"
                 >
-                  View Restaurant Brand Details →
+                  Brand Details →
                 </button>
+                <a
+                  href="https://tuktukwokbar.ie/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-xs text-[#86AA9A] hover:text-[#A7F3D0] underline flex items-center gap-1"
+                >
+                  <span>tuktukwokbar.ie</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
               </div>
             </div>
           </div>
