@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { validateEmail, validatePhone, validateInquiry } from './validation.ts';
+import { createDirectMailtoUrl } from './api.ts';
 
 test('validateEmail correctly accepts valid corporate email formats', () => {
   assert.equal(validateEmail('info@asaolihospitality.ie'), true);
@@ -50,4 +51,19 @@ test('validateInquiry validates full inquiry submission structure', () => {
   assert.ok(invalidResult.errors.phoneNumber);
   assert.ok(invalidResult.errors.enquiryType);
   assert.ok(invalidResult.errors.message);
+});
+
+test('createDirectMailtoUrl targets info@asaolihospitality.ie and formats message correctly', () => {
+  const testData = {
+    fullName: 'John O Connor',
+    company: 'Irish Food Partners',
+    businessEmail: 'john@irishfood.ie',
+    phoneNumber: '+353 83 380 8675',
+    enquiryType: 'Franchise Partnership',
+    message: 'We would love to discuss a partnership in Cork.',
+  };
+  const mailto = createDirectMailtoUrl(testData);
+  assert.ok(mailto.startsWith('mailto:info@asaolihospitality.ie'));
+  assert.ok(mailto.includes('subject='));
+  assert.ok(mailto.includes('body='));
 });

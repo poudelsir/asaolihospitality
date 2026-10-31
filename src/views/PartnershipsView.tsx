@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { ArrowUpRight, Check, CheckCircle2, Handshake, Building2, Utensils, Truck } from 'lucide-react';
+import { ArrowUpRight, Check, CheckCircle2, Handshake, Building2, Utensils, Truck, Mail } from 'lucide-react';
 import { COMPANY_INFO } from '../data/company.ts';
 import { validateInquiry, type PartnershipInquiry } from '../utils/validation.ts';
+import { submitContactInquiry, createDirectMailtoUrl, type ContactSubmissionResponse } from '../utils/api.ts';
 
 interface PartnershipsViewProps {
   onNavigate: (tab: string) => void;
@@ -19,6 +20,7 @@ export const PartnershipsView: React.FC<PartnershipsViewProps> = () => {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionResult, setSubmissionResult] = useState<ContactSubmissionResponse | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -32,7 +34,7 @@ export const PartnershipsView: React.FC<PartnershipsViewProps> = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = validateInquiry(formData);
     if (!result.isValid) {
@@ -41,10 +43,10 @@ export const PartnershipsView: React.FC<PartnershipsViewProps> = () => {
     }
 
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setFormSubmitted(true);
-    }, 600);
+    const response = await submitContactInquiry(formData);
+    setSubmissionResult(response);
+    setIsSubmitting(false);
+    setFormSubmitted(true);
   };
 
   const partnerTypes = [
@@ -165,18 +167,54 @@ export const PartnershipsView: React.FC<PartnershipsViewProps> = () => {
           </div>
 
           {formSubmitted ? (
-            <div className="p-10 bg-[#141412] border border-[#B89B72] text-center space-y-4 animate-in fade-in">
-              <div className="w-12 h-12 rounded-full border border-[#B89B72] flex items-center justify-center mx-auto text-[#B89B72]">
-                <Check className="w-6 h-6" />
+            <div className="p-8 sm:p-12 bg-[#141412] border border-[#B89B72] text-center space-y-5 animate-in fade-in">
+              <div className="w-14 h-14 rounded-full border border-[#B89B72] bg-[#B89B72]/10 flex items-center justify-center mx-auto text-[#B89B72]">
+                <Check className="w-7 h-7" />
               </div>
-              <h3 className="font-serif text-2xl text-[#F5F1E9]">Commercial Proposal Logged</h3>
-              <p className="text-sm text-[#9E998F] max-w-lg mx-auto">
-                Thank you for reaching out, <span className="text-[#F5F1E9] font-medium">{formData.fullName}</span>. An executive representative of {COMPANY_INFO.legalName} has received your dossier and will arrange an introductory conversation.
+              <div>
+                <span className="text-[11px] uppercase tracking-[0.22em] text-[#B89B72] font-semibold block mb-1">
+                  PROPOSAL DISPATCHED
+                </span>
+                <h3 className="font-serif text-2xl sm:text-3xl text-[#F5F1E9]">Proposal Routed to info@asaolihospitality.ie</h3>
+              </div>
+              <div className="p-4 bg-[#0F0F0E] border border-[#2A2A26] text-left text-xs space-y-2 max-w-lg mx-auto">
+                <div className="flex items-center justify-between text-[#9E998F] border-b border-[#222220] pb-2">
+                  <span>Destination Inbox</span>
+                  <span className="font-mono text-[#B89B72] font-semibold">info@asaolihospitality.ie</span>
+                </div>
+                <div className="flex items-center justify-between text-[#9E998F] border-b border-[#222220] pb-2">
+                  <span>Executive Proposer</span>
+                  <span className="text-[#F5F1E9]">{formData.fullName} ({formData.businessEmail})</span>
+                </div>
+                <div className="flex items-center justify-between text-[#9E998F]">
+                  <span>Reference ID</span>
+                  <span className="font-mono text-[#E8E0D4]">{submissionResult?.messageId || 'PROP-DISPATCHED'}</span>
+                </div>
+              </div>
+              <p className="text-xs text-[#9E998F] max-w-lg mx-auto leading-relaxed">
+                Thank you, <span className="text-[#F5F1E9] font-medium">{formData.fullName}</span>. Your commercial dossier has been received and routed directly to <span className="text-[#B89B72] font-medium">info@asaolihospitality.ie</span>. An executive representative of {COMPANY_INFO.legalName} will arrange an introductory dialogue.
               </p>
-              <div className="pt-2">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-3">
+                <a
+                  href={createDirectMailtoUrl(formData)}
+                  className="w-full sm:w-auto px-5 py-2.5 text-xs uppercase tracking-wider text-[#F5F1E9] border border-[#B89B72]/50 hover:bg-[#B89B72]/10 transition-colors cursor-pointer flex items-center justify-center gap-1.5"
+                >
+                  <Mail className="w-3.5 h-3.5 text-[#B89B72]" />
+                  <span>Open in Mail App (info@asaolihospitality.ie)</span>
+                </a>
                 <button
-                  onClick={() => setFormSubmitted(false)}
-                  className="px-6 py-2.5 text-xs uppercase tracking-widest text-[#111111] bg-[#B89B72] hover:bg-[#D4BD9B] transition-colors cursor-pointer"
+                  onClick={() => {
+                    setFormSubmitted(false);
+                    setFormData({
+                      fullName: '',
+                      company: '',
+                      businessEmail: '',
+                      phoneNumber: '',
+                      enquiryType: 'Franchise Brand Operator',
+                      message: '',
+                    });
+                  }}
+                  className="w-full sm:w-auto px-5 py-2.5 text-xs uppercase tracking-widest text-[#111111] bg-[#B89B72] hover:bg-[#D4BD9B] font-medium transition-colors cursor-pointer"
                 >
                   Submit Another Dossier
                 </button>

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { ArrowDown, ArrowUpRight, MapPin, Check, ChevronRight, ExternalLink, Flame } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, MapPin, Check, ChevronRight, ExternalLink, Flame, Mail } from 'lucide-react';
 import { COMPANY_INFO, PHILOSOPHY_PRINCIPLES, EXPERTISE_PILLARS, RESTAURANT_BRANDS } from '../data/company.ts';
 import { ImageWithFallback } from '../components/ImageWithFallback.tsx';
 import { validateInquiry, type PartnershipInquiry } from '../utils/validation.ts';
+import { submitContactInquiry, createDirectMailtoUrl, type ContactSubmissionResponse } from '../utils/api.ts';
 
 interface HomeViewProps {
   onNavigate: (tab: string) => void;
@@ -22,6 +23,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onSelectBrand })
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionResult, setSubmissionResult] = useState<ContactSubmissionResponse | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -35,7 +37,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onSelectBrand })
     }
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = validateInquiry(formData);
     if (!result.isValid) {
@@ -44,10 +46,10 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onSelectBrand })
     }
 
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setFormSubmitted(true);
-    }, 600);
+    const response = await submitContactInquiry(formData);
+    setSubmissionResult(response);
+    setIsSubmitting(false);
+    setFormSubmitted(true);
   };
 
   const tukTukBrand = RESTAURANT_BRANDS[0];
@@ -593,30 +595,58 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onSelectBrand })
               </div>
 
               {formSubmitted ? (
-                <div className="p-8 bg-[#1B1B18] border border-[#B89B72] text-center space-y-4 animate-in fade-in">
-                  <div className="w-12 h-12 rounded-full border border-[#B89B72] flex items-center justify-center mx-auto text-[#B89B72]">
-                    <Check className="w-6 h-6" />
+                <div className="p-8 sm:p-10 bg-[#161614] border border-[#B89B72] text-center space-y-5 animate-in fade-in">
+                  <div className="w-14 h-14 rounded-full border border-[#B89B72] bg-[#B89B72]/10 flex items-center justify-center mx-auto text-[#B89B72]">
+                    <Check className="w-7 h-7" />
                   </div>
-                  <h4 className="font-serif text-2xl text-[#F5F1E9]">Inquiry Received</h4>
-                  <p className="text-sm text-[#9E998F] max-w-md mx-auto">
-                    Thank you, <span className="text-[#F5F1E9] font-medium">{formData.fullName}</span>. Your enquiry has been routed directly to corporate leadership at ASA Hospitality ({COMPANY_INFO.legalName}). A director will respond within 1–2 business days.
+                  <div>
+                    <span className="text-[11px] uppercase tracking-[0.22em] text-[#B89B72] font-semibold block mb-1">
+                      DISPATCH CONFIRMED
+                    </span>
+                    <h4 className="font-serif text-2xl text-[#F5F1E9]">Message Routed to Corporate Inbox</h4>
+                  </div>
+                  <div className="p-4 bg-[#111111] border border-[#2A2A26] text-left text-xs space-y-2 max-w-lg mx-auto">
+                    <div className="flex items-center justify-between text-[#9E998F] border-b border-[#222220] pb-2">
+                      <span>Recipient Inbox</span>
+                      <span className="font-mono text-[#B89B72] font-semibold">info@asaolihospitality.ie</span>
+                    </div>
+                    <div className="flex items-center justify-between text-[#9E998F] border-b border-[#222220] pb-2">
+                      <span>Sender</span>
+                      <span className="text-[#F5F1E9]">{formData.fullName} ({formData.businessEmail})</span>
+                    </div>
+                    <div className="flex items-center justify-between text-[#9E998F]">
+                      <span>Reference Identifier</span>
+                      <span className="font-mono text-[#E8E0D4]">{submissionResult?.messageId || 'MSG-CONFIRMED'}</span>
+                    </div>
+                  </div>
+                  <p className="text-xs text-[#9E998F] max-w-md mx-auto leading-relaxed">
+                    Every message sent through this website is transmitted directly to <span className="text-[#F5F1E9] font-medium">info@asaolihospitality.ie</span>. A director of ASA OLI HOSPITALITY LIMITED will review your submission and respond promptly.
                   </p>
-                  <button
-                    onClick={() => {
-                      setFormSubmitted(false);
-                      setFormData({
-                        fullName: '',
-                        company: '',
-                        businessEmail: '',
-                        phoneNumber: '',
-                        enquiryType: 'Franchise Partnership',
-                        message: '',
-                      });
-                    }}
-                    className="mt-4 px-6 py-2.5 text-xs uppercase tracking-widest text-[#111111] bg-[#B89B72] hover:bg-[#D4BD9B] transition-colors cursor-pointer"
-                  >
-                    Submit Another Inquiry
-                  </button>
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+                    <a
+                      href={createDirectMailtoUrl(formData)}
+                      className="w-full sm:w-auto px-5 py-2.5 text-xs uppercase tracking-wider text-[#F5F1E9] border border-[#B89B72]/50 hover:bg-[#B89B72]/10 transition-colors cursor-pointer flex items-center justify-center gap-1.5"
+                    >
+                      <Mail className="w-3.5 h-3.5 text-[#B89B72]" />
+                      <span>Open in Mail App (info@asaolihospitality.ie)</span>
+                    </a>
+                    <button
+                      onClick={() => {
+                        setFormSubmitted(false);
+                        setFormData({
+                          fullName: '',
+                          company: '',
+                          businessEmail: '',
+                          phoneNumber: '',
+                          enquiryType: 'Franchise Partnership',
+                          message: '',
+                        });
+                      }}
+                      className="w-full sm:w-auto px-5 py-2.5 text-xs uppercase tracking-wider text-[#111111] bg-[#B89B72] hover:bg-[#D4BD9B] font-medium transition-colors cursor-pointer"
+                    >
+                      Submit Another Inquiry
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={handleFormSubmit} className="space-y-6">
